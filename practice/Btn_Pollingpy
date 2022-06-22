@@ -1,0 +1,27 @@
+import RPi.GPIO as GPIO 
+import time
+
+
+button_pin = 15
+SERVO_PIN=0
+
+GPIO.setwarnings(False) 
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(SERVO_PIN, GPIO.OUT)
+servo = GPIO.PWM(SERVO_PIN,50)
+
+
+GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
+count=0
+while 1:  #무한반복 
+    # 만약 버튼핀에 High(1) 신호가 들어오면, "Button pushed!" 
+    if GPIO.input(button_pin) == GPIO.HIGH:
+        if count==0:
+            servo.ChangeDutyCycle(7.5)
+            count=1
+        else :
+            servo.ChangeDutyCycle(2.5)
+            count=0
+    time.sleep(0.1)    # 0.1초 딜레이 
